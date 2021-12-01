@@ -1,27 +1,29 @@
-import React from 'react'
-import { Form,  } from "react-bootstrap";
+import React,{useRef} from 'react'
+import { Form, Button, Container } from "react-bootstrap";
+import { v4 as uuidV4} from 'uuid'
 
-export default function Login() {
+export default function Login({setid}) {
+  const idRef = useRef()
+
+  function handleSubmit(e){
+    e.preventDefault()
+    setid(idRef.current.value)
+  }
+
+  function createNewID(){
+    setid(uuidV4())
+  }
+
   return (
-    <Form>
-    <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Email address</Form.Label>
-      <Form.Control type="email" placeholder="Enter email" />
-      <Form.Text className="text-muted">
-        We'll never share your email with anyone else.
-      </Form.Text>
-    </Form.Group>
-
-    <Form.Group className="mb-3" controlId="formBasicPassword">
-      <Form.Label>Password</Form.Label>
-      <Form.Control type="password" placeholder="Password" />
-    </Form.Group>
-    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-      <Form.Check type="checkbox" label="Check me out" />
-    </Form.Group>
-    <Button variant="primary" type="submit">
-      Submit
-    </Button>
-  </Form>
+    <Container className='background align-items-center justify-content-center d-flex' style={{width:'100%',height: '100vh'}}>
+        <Form className='w-100 justify-content-center d-flex flex-column' onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Enter Your ID:</Form.Label>
+            <Form.Control type='text' ref={idRef} required></Form.Control >
+          </Form.Group>
+          <Button type='submit' variant='success' className='m-2'>Login</Button>
+          <Button className='m-2' variant='secondary' onClick={createNewID}>Create New ID</Button>
+        </Form>
+    </Container>
   )
 }
